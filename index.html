@@ -220,7 +220,7 @@ tr:hover td { background: #FFFDE7; }
   <div class="site-badge">BRRJ02</div>
   <div>
     <div class="page-title">Packing RK</div>
-    <div class="page-subtitle">Packing &nbsp;·&nbsp; Setor RK &nbsp;·&nbsp; 06/05/2026 · 06h–14h &nbsp;·&nbsp; meta 200 un/h</div>
+    <div class="page-subtitle">Packing &nbsp;·&nbsp; Setor RK &nbsp;·&nbsp; 07/05/2026 · 06h–14h &nbsp;·&nbsp; meta 200 un/h</div>
   </div>
 </div>
 
@@ -242,6 +242,18 @@ tr:hover td { background: #FFFDE7; }
     <span class="legend-item"><span class="ldot" style="background:var(--red-bar)"></span><span id="legend-below">&lt; 54 — abaixo</span></span>
     <span class="legend-item"><span class="ldot" style="background:#bdbdbd"></span>sem produção</span>
   </div>
+</div>
+
+<div id="team-panel" style="padding:12px 24px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;cursor:pointer;" onclick="toggleTeam()">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="15" height="15" fill="none" stroke="var(--ml-blue)" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--ml-blue);">Equipe do Setor</span>
+      <span id="team-count-badge" style="background:var(--ml-blue);color:var(--ml-yellow);border-radius:12px;padding:1px 9px;font-size:11px;font-weight:700;">30</span>
+    </div>
+    <span id="team-toggle-icon" style="font-size:12px;color:var(--muted);font-weight:600;">▲ recolher</span>
+  </div>
+  <div id="team-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;margin-bottom:14px;"></div>
 </div>
 
 <div class="table-wrap">
@@ -280,18 +292,23 @@ const raw = [
   {id:1805739, nome:"Marcos Vinicios Saldanha Da Silva", prod_liq:0, util:0.0, unidades:0},
   {id:2242089, nome:"Maria Eduarda Santos Da Silva Da Conceicao", prod_liq:0, util:0.0, unidades:0},
   {id:1921713, nome:"Matheus Clemente De Sena", prod_liq:0, util:0.0, unidades:0},
-  {id:2126588, nome:"Nathalia Do Rosario Bastos Oliveira", prod_liq:0, util:0.0, unidades:0},
-  {id:2140780, nome:"Isaque Ribeiro Pereira Braga", prod_liq:202, util:79.43, unidades:222},
+  {id:2126588, nome:"Nathalia Do Rosario Bastos Oliveira", prod_liq:172, util:69.78, unidades:166},
+  {id:2140780, nome:"Isaque Ribeiro Pereira Braga", prod_liq:198, util:78.78, unidades:745},
   {id:2111214, nome:"Maxwell Duarte Soares", prod_liq:0, util:0.0, unidades:0},
   {id:2111210, nome:"Kamilly Vitoria De Oliveira Pereira", prod_liq:0, util:0.0, unidades:0},
   {id:2140781, nome:"Juliana Barreiros Dos Santos Salomao", prod_liq:0, util:0.0, unidades:0},
-  {id:2140788, nome:"Maria Eloiza Da Silva Santos", prod_liq:0, util:0.0, unidades:0},
+  {id:2140788, nome:"Maria Eloiza Da Silva Santos", prod_liq:147, util:58.76, unidades:231},
   {id:2027417, nome:"Viviane Leal Liberato Da Silva", prod_liq:0, util:0.0, unidades:0},
   {id:2027311, nome:"Andressa Gomes Da Silva", prod_liq:0, util:0.0, unidades:0},
   {id:2027341, nome:"Kamille Almeida De Freitas", prod_liq:0, util:0.0, unidades:0},
   {id:2140772, nome:"Clara Xavier Viana", prod_liq:0, util:0.0, unidades:0},
-  {id:2109397, nome:"Beatriz Moreira Da Silva", prod_liq:247, util:87.81, unidades:1319},
-  {id:2428370, nome:"Andriely De Jesus Morote Guimaraes", prod_liq:158, util:82.65, unidades:877}
+  {id:2109397, nome:"Beatriz Moreira Da Silva", prod_liq:258, util:89.31, unidades:1826},
+  {id:2428370, nome:"Andriely De Jesus Morote Guimaraes", prod_liq:195, util:87.99, unidades:1384},
+  {id:2445341, nome:"Maria Luiza Alves Souza", prod_liq:129, util:74.63, unidades:193},
+  {id:2210941, nome:"Matheus Dos Santos Lucio", prod_liq:217, util:88.81, unidades:130},
+  {id:2109430, nome:"Joyce Dos Anjos Lopes", prod_liq:291, util:97.39, unidades:264},
+  {id:2234039, nome:"Ana Carolina Candida Cordeiro Da Silva", prod_liq:278, util:97.12, unidades:51},
+  {id:2217898, nome:"Larissa Dandara Pedro De Paiva", prod_liq:130, util:63.9, unidades:249}
 ];
 
 function getCategory(d) {
@@ -355,7 +372,7 @@ function buildSummary(){
     <div class="card border-amber"><div class="card-label">Atenção</div><div class="card-val c-amber">${nAttn}</div><div class="card-sub">prod ${attnMin}–${meta-1}</div></div>
     <div class="card border-red"><div class="card-label">Abaixo</div><div class="card-val c-red">${nBelow}</div><div class="card-sub">prod &lt; ${attnMin}</div></div>
     <div class="card border-blue"><div class="card-label">Total Unidades</div><div class="card-val c-blue">${totalUni.toLocaleString('pt-BR')}</div><div class="card-sub">no turno</div></div>
-    <div class="card border-${mediaColor}"><div class="card-label">Média Produtiva</div><div class="card-val c-${mediaColor}">${mediaProd}</div><div class="card-sub">un/h · ${comProd} produtores</div></div>`;
+    `;
 
   document.getElementById('legend-meta').textContent  = `≥ ${meta} — meta`;
   document.getElementById('legend-attn').textContent  = `${attnMin}–${meta-1} — atenção`;
@@ -464,7 +481,32 @@ function renderTable(){
 
 document.getElementById('search-input').addEventListener('input', e => { searchQ = e.target.value.trim(); renderTable(); });
 
-buildSummary(); buildTabs(); renderTable();
+function renderTeam(){
+  const grid = document.getElementById('team-grid');
+  const sorted = [...raw].sort((a,b) => a.nome.localeCompare(b.nome));
+  grid.innerHTML = sorted.map(d => {
+    const hasData = d.prod_liq > 0;
+    const color = hasData ? (d.prod_liq >= meta ? 'var(--green)' : d.prod_liq >= meta*0.8 ? 'var(--amber)' : 'var(--red)') : '#bdbdbd';
+    const dot = `<span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;flex-shrink:0;margin-top:3px;"></span>`;
+    return `<div style="display:flex;align-items:flex-start;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;">
+      ${dot}
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);line-height:1.3;">ID ${d.id}${hasData ? ` · ${d.prod_liq} un/h` : ' · sem produção'}</div>
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-top:2px;line-height:1.3;">${d.nome}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('team-count-badge').textContent = sorted.length;
+}
+
+let teamOpen = true;
+function toggleTeam(){
+  teamOpen = !teamOpen;
+  document.getElementById('team-grid').style.display = teamOpen ? 'grid' : 'none';
+  document.getElementById('team-toggle-icon').textContent = teamOpen ? '▲ recolher' : '▼ expandir';
+}
+
+buildSummary(); buildTabs(); renderTable(); renderTeam();
 </script>
 </body>
 </html>
